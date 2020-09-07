@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "mab-hakuinadvisors"
+version = "0.1.2"
+description = "Multiarm bandit solutions"
+authors = ["Alexey <butirev@gmail.com>"]
+license = "MIT"
+
+packages = [
+    { include = "mab"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
