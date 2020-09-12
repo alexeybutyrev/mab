@@ -3,6 +3,11 @@ import random
 
 
 class AB(MAB):
+    """AB testing Class for Multiarm Bandit Application
+
+    Args:
+        MAB (MAB): Muliarm Bandit parent class
+    """
     def __init__(self, counts=None, values=None, n_arms=None):
         super().__init__(counts, values, n_arms)
         self.current_arm = 0
