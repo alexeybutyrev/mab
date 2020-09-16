@@ -12,3 +12,5 @@ from mab.metric import Metric
 from mab.ab import AB
 from mab.ucb1 import UCB1
 from mab.softmax import Softmax
+from mab.betats import BetaTS
+from mab.viz import plot
