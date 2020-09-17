@@ -3,9 +3,19 @@ from .mab import MAB
 
 
 class EpsilonGreedy(MAB):
+
     def __init__(
         self, epsilon=1.0, counts=None, values=None, n_arms=None, weakness_mult=None
     ):
+        """[summary]
+
+        Args:
+            epsilon (float, optional): [description]. Defaults to 1.0.
+            counts (list, optional): [description]. Defaults to None.
+            values (list, optional): [description]. Defaults to None.
+            n_arms (list, optional): [description]. Defaults to None.
+            weakness_mult (float, optional): [description]. Defaults to None.
+        """
         super().__init__(counts, values, n_arms)
         self.epsilon = epsilon  # probablity of choosing random arm
         self.weakness_mult = None
