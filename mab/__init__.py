@@ -1,6 +1,6 @@
 # __init__.py
 
-__version__ = "0.1.1"
+__version__ = "0.3.1"
 
 from mab.montecarlo import test_alorythm
 from mab.rewards import BernoulliArm
