@@ -1,7 +1,7 @@
 # MAB
 
 ## Description
-Multi-armed Bandit libraty. It provides implementation of main algorythms like:
+Multi-armed Bandit libraty. It provides implementation of main algorithms like:
 
 - EpsionGreedy
 - BetaTS
@@ -12,11 +12,11 @@ Multi-armed Bandit libraty. It provides implementation of main algorythms like:
 - AB testing
 - Random Select
 
-Also the part of the package is simualtions
+Also, the package enables trial simulations:
 
 - Motecarlo Simulation
 
-with type of rewards
+with different types of rewards
 
 - Bernoulli Arms (binary rewards)
 - Uniform Arms   (uniformly distributed rewards)
@@ -33,7 +33,7 @@ Two ways to install:
 The best usage example can be found in the file `simulation.ipynb`
 
 The package can be used as
-- As a part of another library or software
+- A part of another library or software
 - API (in progress)
 - Theoretical learning by using simulations like in `simulation.ipynb` or with different types of rewards, algorythms and simulation parameters
 
