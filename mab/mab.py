@@ -31,9 +31,11 @@ class MAB:
     def __init__(self, counts=None, values=None, n_arms=None):
         """
         Args:
-            counts (list[int], optional): [description]. Defaults to [0] * n_arms
-            values (list[float], optional): [description]. Defaults to [0.0] * n_arms
-            n_arms (int, optional): [description]. Defaults to len(counts)
+            counts (list[int]): number of times event happend for each arm.
+                                Defaults to [0] * n_arms
+            values (list[float]): total rewards for each arm
+                                Defaults to [0.0] * n_arms
+            n_arms (int): Number of arms. Defaults to len(counts)
         """
         if counts is None:
             # set up with zeroes if not defined
@@ -49,16 +51,17 @@ class MAB:
         self.values = values  # success rate for each arm
 
         # we need save start values for reset calls
-        self.init_counts = counts
-        self.init_values = values
+        self.init_counts = counts[:]
+        self.init_values = values[:]
 
     def __str__(self):
         return str(self.__class__.__name__)
 
     def reset(self):
         """Reset MAB. Sets counts and values to the inital state"""
-        self.counts = self.counts
-        self.values = self.values
+
+        self.counts = self.init_counts[:]
+        self.values = self.init_values[:]
 
     def select_arm(self):
         """Select Arm of MAB:
