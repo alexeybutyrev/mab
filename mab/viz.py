@@ -1,6 +1,7 @@
 import plotly.graph_objects as go
 import numpy as np
 
+
 def plot(results, metric="accuracy", title="", horizon=None, add_diagonal=False):
     """
         Help function to make plotly charts of the metric results
@@ -16,7 +17,7 @@ def plot(results, metric="accuracy", title="", horizon=None, add_diagonal=False)
         [plotly.fig]: returns figure with data
     """
     if horizon is None:
-        horizon = max(results[0]["times"]) + 1
+        horizon = len(results[0][metric])
 
     fig = go.Figure()
     for res in results:

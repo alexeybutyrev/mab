@@ -1,4 +1,4 @@
-def test_alorythm(algo, arms, num_sims, horizon):
+def montecarlo_simulation(algo, arms, num_sims, horizon):
     """Monte Carlo simulation of MAB malgorythm
 
     Args:
