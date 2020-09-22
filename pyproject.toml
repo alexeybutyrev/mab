@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mab-hakuinadvisors"
-version = "0.3.1"
+version = "0.3.2"
 description = "Multiarm bandit solutions"
 authors = ["Alexey <butirev@gmail.com>"]
 license = "MIT"
