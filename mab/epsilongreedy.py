@@ -75,6 +75,11 @@ class EpsilonGreedy(MAB):
         else:
             return "EpsilonWeakGreedy - " + str(self.weakness_mult)
 
+    @property
+    def marketing_name(self):
+        """High level produnction name"""
+        return "PM's solution"
+
     def select_arm(self):
         """EpsilonGreedy algorythm implementaion
 

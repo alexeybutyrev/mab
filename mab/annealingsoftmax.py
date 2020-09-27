@@ -49,6 +49,11 @@ class AnnealingSoftmax(Softmax):
         """
         return "AnnealingSoftmax"
 
+    @property
+    def marketing_name(self):
+        """High level produnction name"""
+        return "Custom solution - 3"
+
     def select_arm(self):
         """Anealing Softmax algorythm implementaion
 

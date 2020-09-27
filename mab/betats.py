@@ -76,6 +76,11 @@ class BetaTS(MAB):
         """
         return "BetaTS"
 
+    @property
+    def marketing_name(self):
+        """High level produnction name"""
+        return "Custom Solution"
+
     def select_arm(self):
         """Thompson Sampling Algorythm implementaion
 

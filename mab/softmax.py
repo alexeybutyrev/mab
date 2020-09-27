@@ -57,6 +57,11 @@ class Softmax(MAB):
         """
         return "Softmax. T=" + str(self.temperature)
 
+    @property
+    def marketing_name(self):
+        """High level produnction name"""
+        return "Custom solution - 2"
+
     def select_arm(self):
         """Softmax algorythm implementaion
 
