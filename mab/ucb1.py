@@ -51,6 +51,11 @@ class UCB1(MAB):
         """
         return "UCB1"
 
+    @property
+    def marketing_name(self):
+        """High level produnction name"""
+        return "Custom solution - 4"
+
     def select_arm(self):
         """Upper Confidence Boundary1 algorythm implementaion
 

@@ -49,6 +49,11 @@ class AB(MAB):
         """
         return "AB-test"
 
+    @property
+    def marketing_name(self):
+        """High level produnction name"""
+        return "One by one A/B"
+
     def select_arm(self):
         """Select next arm one by one
 

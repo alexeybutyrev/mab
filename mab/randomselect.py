@@ -49,6 +49,11 @@ class RandomSelect(MAB):
         """
         return "RandomSelect"
 
+    @property
+    def marketing_name(self):
+        """High level produnction name"""
+        return "A/B Testing"
+
     def select_arm(self):
         """Randomly select next arm
 

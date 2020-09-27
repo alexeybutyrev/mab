@@ -2,13 +2,20 @@ import plotly.graph_objects as go
 import numpy as np
 
 
-def plot(results, metric="accuracy", title="", horizon=None, add_diagonal=False):
+def plot(
+    mc,
+    metric="accuracy",
+    title="",
+    horizon=None,
+    add_diagonal=False,
+    is_marketing_name=False,
+    is_percents=False,
+):
     """
-        Help function to make plotly charts of the metric results
-            results - dictionaries with results of experiments
+        Help function to make plotly charts of the monte carlo simulation
 
     Args:
-        results (dict): dictionary with simulaions for different algorythms
+        mc (dict): dictionary with mc simulaions for different algorythms
         metric (str): Metric to plot. Defaults to "accuracy".
         title (str): Title of the plot. Defaults to "".
         horizon (int): Time horizon. Nuber of times arm was selected
@@ -17,16 +24,18 @@ def plot(results, metric="accuracy", title="", horizon=None, add_diagonal=False)
         [plotly.fig]: returns figure with data
     """
     if horizon is None:
-        horizon = len(results[0][metric])
+        horizon = max(mc[next(iter(mc))]["times"]) + 1
 
     fig = go.Figure()
-    for res in results:
+    for m in mc:
+        algorythm_name = mc[m]["marketing_name"] if is_marketing_name else m
+
         fig.add_trace(
             go.Scatter(
                 x=np.array(range(horizon)),
-                y=np.array(res[metric]),
+                y=np.array(mc[m][metric]),
                 mode="lines",
-                name=res["algorythm"],
+                name=algorythm_name,
             )
         )
 
@@ -44,5 +53,7 @@ def plot(results, metric="accuracy", title="", horizon=None, add_diagonal=False)
         title=title,
         autosize=True,
     )
+    if is_percents:
+        fig.update_layout(yaxis=dict(tickformat="0.0%"))
 
     return fig
