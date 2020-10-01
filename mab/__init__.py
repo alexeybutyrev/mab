@@ -2,7 +2,7 @@
 
 __version__ = "0.3.1"
 
-from mab.montecarlo import mc_simulation
+from mab.montecarlo import MonteCarloSimulation, Simulation
 from mab.rewards import BernoulliArm
 from mab.rewards import UniformArm
 from mab.epsilongreedy import EpsilonGreedy

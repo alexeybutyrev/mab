@@ -30,6 +30,7 @@ class Metric:
         Returns:
             list: the number of times the best arm was chosen devided by the number of simulations
         """
+
         accuracy = [0] * (max(times) + 1)
         n_times = len(times)
         for i in range(n_times):

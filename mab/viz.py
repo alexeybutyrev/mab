@@ -15,7 +15,7 @@ def plot(
         Help function to make plotly charts of the monte carlo simulation
 
     Args:
-        mc (dict): dictionary with mc simulaions for different algorythms
+        mc (MonteCarloSimulation): mc simulaions for different algorythms
         metric (str): Metric to plot. Defaults to "accuracy".
         title (str): Title of the plot. Defaults to "".
         horizon (int): Time horizon. Nuber of times arm was selected
@@ -24,16 +24,16 @@ def plot(
         [plotly.fig]: returns figure with data
     """
     if horizon is None:
-        horizon = max(mc[next(iter(mc))]["times"]) + 1
+        horizon = mc.horizon
 
     fig = go.Figure()
     for m in mc:
-        algorythm_name = mc[m]["marketing_name"] if is_marketing_name else m
+        algorythm_name = m.marketing_name if is_marketing_name else m.name
 
         fig.add_trace(
             go.Scatter(
                 x=np.array(range(horizon)),
-                y=np.array(mc[m][metric]),
+                y=np.array(m.metrics[metric]),
                 mode="lines",
                 name=algorythm_name,
             )
