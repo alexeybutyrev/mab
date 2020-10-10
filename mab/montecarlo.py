@@ -170,8 +170,8 @@ class MonteCarloSimulation:
                 )
 
             if "cumulative_reward" in metrics:
-                s.metrics["cumulative_reward"] = Metric.average_reward(
-                    self.times, s.cumulative_rewards, s.rewards, self.n_sims
+                s.metrics["cumulative_reward"] = Metric.cumulative_reward(
+                    self.times, s.cumulative_rewards, self.n_sims
                 )
 
             if "regret" in metrics:

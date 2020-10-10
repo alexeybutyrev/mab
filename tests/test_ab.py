@@ -18,5 +18,5 @@ def test_select_arm(model):
 
 def test_reset(model):
     model.reset()
-    assert sum(model.counts) == 0
+    assert sum(model.counts) == 30
     assert model.current_arm == 0

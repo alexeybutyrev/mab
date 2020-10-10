@@ -21,5 +21,5 @@ def test_narms_check(model):
 
 def test_reset_check(model):
     model.reset()
-    assert sum(model.counts) == 0
-    assert sum(model.values) == 0.0
+    assert sum(model.counts) == 30
+    assert sum(model.values) == 0.6
