@@ -4,15 +4,15 @@ from collections import defaultdict
 
 class Simulation:
     """
-    Simulation - class containing simulation attributues and results
+    Simulation - class containing simulation attributes and results
 
     ...
 
     Attributes:
     ----------
 
-    algorytm: MAB,
-        Multiarm Bandit algorythm
+    algorithm: MAB,
+        Multiarm Bandit algorithm
 
     n_sims : int
         Number of simulations
@@ -25,7 +25,7 @@ class Simulation:
     All the methods from MAB plus
 
     reset()
-        reset the algorythm to inital state
+        reset the algorithm to initial state
     """
 
     def __init__(self, algorytm, n_sims, horizon, name=None):
@@ -56,7 +56,7 @@ class Simulation:
 class MonteCarloSimulation:
     """
     MonteCarloSimulation
-    Monte Carlo Simulation of differnt Multi-armed Bandit algorythms
+    Monte Carlo Simulation of different Multi-armed Bandit algorythms
 
     ...
 
@@ -97,7 +97,7 @@ class MonteCarloSimulation:
 
         self.arms = arms
 
-        self.sim_nums = [0.0 for i in range(n_sims * horizon)]
+        self.sim_num = [0.0 for i in range(n_sims * horizon)]
         self.times = [0.0 for i in range(n_sims * horizon)]
 
         self.simulations = []
@@ -120,61 +120,69 @@ class MonteCarloSimulation:
         for sim in range(self.n_sims):
             for s in self.simulations:
                 s.reset()
+                self._run_simulation(sim, s)
+                
+    def _run_simulation(self, sim, s):
+        """ Run one simulation
 
-                for t in range(self.horizon):
-                    for s in self.simulations:
-                        index = sim * self.horizon + t
-                        self.sim_nums[index] = sim
-                        self.times[index] = t
+        Args:
+            sim (int): [description]
+            s (Simulation): [description]
+        """
+        for t in range(self.horizon):
+            for s in self.simulations:
+                index = sim * self.horizon + t
+                self.sim_num[index] = sim
+                self.times[index] = t
 
-                        chosen_arm = s.algorytm.select_arm()
-                        s.chosen_arms[index] = chosen_arm
+                chosen_arm = s.algorytm.select_arm()
+                s.chosen_arms[index] = chosen_arm
 
-                        # check out if any rewards for the current time and simulation
-                        # save 0 in possible rewards and 1 otherwise
-                        all_rewards = list(map(lambda x: x.draw(), self.arms))
-                        s.possible_rewards[index] = int(sum(all_rewards) > 0)
+                # check out if any rewards for the current time and simulation
+                # save 0 in possible rewards and 1 otherwise
+                all_rewards = list(map(lambda x: x.draw(), self.arms))
+                s.possible_rewards[index] = int(sum(all_rewards) > 0)
 
-                        reward = all_rewards[chosen_arm]
-                        s.rewards[index] = reward
+                reward = all_rewards[chosen_arm]
+                s.rewards[index] = reward
 
-                        if t == 0:
-                            s.cumulative_rewards[index] = reward
-                        else:
-                            s.cumulative_rewards[index] = (
-                                s.cumulative_rewards[index - 1] + reward
-                            )
+                if t == 0:
+                    s.cumulative_rewards[index] = reward
+                else:
+                    s.cumulative_rewards[index] = (
+                        s.cumulative_rewards[index - 1] + reward
+                    )
 
-                        s.algorytm.update(chosen_arm, reward)
+                s.algorytm.update(chosen_arm, reward)
 
     def calculate_metrics(
         self,
-        Metric,
+        metric,
         metrics=["accuracy", "average_reward", "cumulative_reward", "regret"],
     ):
         """Calculate metrics for existent simualtions
 
         Args:
-            Metric (Metric): object with metrics calculations
+            metric (Metric): object with metrics calculations
             metrics (list, optional): [description]. List of metrics to make calculations ["accuracy", "average_reward", "cumulative_reward", "regret"].
         """
         for s in self.simulations:
             if "accuracy" in metrics:
-                s.metrics["accuracy"] = Metric.accuracy(
+                s.metrics["accuracy"] = metric.accuracy(
                     self.times, s.possible_rewards, s.rewards, self.n_sims
                 )
 
             if "average_reward" in metrics:
-                s.metrics["average_reward"] = Metric.average_reward(
+                s.metrics["average_reward"] = metric.average_reward(
                     self.times, s.possible_rewards, s.rewards, self.n_sims
                 )
 
             if "cumulative_reward" in metrics:
-                s.metrics["cumulative_reward"] = Metric.cumulative_reward(
+                s.metrics["cumulative_reward"] = metric.cumulative_reward(
                     self.times, s.cumulative_rewards, self.n_sims
                 )
 
             if "regret" in metrics:
-                s.metrics["regret"] = Metric.regret(
+                s.metrics["regret"] = metric.regret(
                     self.times, s.possible_rewards, s.rewards, self.n_sims
                 )
