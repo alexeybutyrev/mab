@@ -19,11 +19,12 @@ class BernoulliArm:
 
     """
 
-    def __init__(self, p):
+    def __init__(self, p, seed=30):
         """
         Args:
             p (float): probabilty of choosing arm [0,1]
         """
+        random.seed(30)
         self.p = p
         assert p >= 0 and p <= 1
 

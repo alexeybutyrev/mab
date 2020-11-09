@@ -31,11 +31,12 @@ class Metric:
             list: the number of times the best arm was chosen devided by the number of simulations
         """
 
-        accuracy = [0] * (max(times) + 1)
-        n_times = len(times)
-        for i in range(n_times):
-            accuracy[times[i]] += int(possible_rewards[i] == rewards[i])
-        return [a / n_sims for a in accuracy]
+        accuracy = [0.0] * (max(times) + 1)
+        for i in range(len(rewards)):
+            if possible_rewards[i]:
+                accuracy[times[i]] = rewards[i] / possible_rewards[i]
+
+        return accuracy
 
     @staticmethod
     def cumulative_reward(times, cumulative_reward, n_sims):
@@ -95,13 +96,8 @@ class Metric:
         """
 
         accuracy = [0.0] * (max(times) + 1)
-        n_rewards = [0.0] * (max(times) + 1)
         for i in range(len(rewards)):
             if possible_rewards[i]:
-                accuracy[times[i]] += rewards[i]
-                n_rewards[times[i]] += 1
+                accuracy[times[i]] = rewards[i] / possible_rewards[i]
 
-        total_rewards = sum(accuracy)
-        total_reward_times = max(1, sum(n_rewards))
-
-        return [total_rewards / total_reward_times] * (max(times) + 1)
+        return accuracy
