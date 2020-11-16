@@ -4,7 +4,7 @@ from .mab import MAB
 
 class RandomSelect(MAB):
     """
-    Mulitarm Bandint that randomly select arm
+    Multiarm Bandint that randomly select arm
 
     ...
 
