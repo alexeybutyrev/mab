@@ -71,6 +71,6 @@ class AB(MAB):
         return current_arm
 
     def reset(self):
-        """Reset the algoryth to the intial state"""
+        """Reset the algorithm to the initial state"""
         super(AB, self).reset()
         self.current_arm = 0
