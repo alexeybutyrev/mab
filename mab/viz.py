@@ -84,7 +84,7 @@ def plot(
         horizon = len(metrics[0][metric_name])
 
     if title is None:
-        title = metric_name.replace("_"," ").capitalize()
+        title = metric_name.replace("_", " ").capitalize()
 
     fig = go.Figure()
     for i, m in enumerate(metrics):
@@ -112,6 +112,7 @@ def plot(
     fig.update_layout(
         title=title, autosize=True,
     )
+    fig.update_yaxes(rangemode="tozero")
     if is_percents:
         fig.update_layout(yaxis=dict(tickformat="0.0%"))
 

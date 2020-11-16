@@ -1,13 +1,13 @@
 class Metric:
     """
-    Metrics for measuring MAB (Multi-armed Bandit Algorythm) productivity
+    Metrics for measuring MAB (Multi-armed Bandit Algorithm) productivity
 
     ...
 
     Methods:
     -----------
-    accuracy(best_arm, times, chosen_arms, n_sims)
-        Returns the number of times the best arm was chosen devided by the number of simulations
+    accuracy(possible_rewards, rewards)
+        Returns the number of times the best arm was chosen divided by the number of simulations
 
     average_reward(times, rewards, n_sims)
         Average reward per simulateion for each timestamp
@@ -18,29 +18,27 @@ class Metric:
     """
 
     @staticmethod
-    def accuracy(times, possible_rewards, rewards, n_sims):
+    def accuracy(possible_rewards, rewards):
         """Metric for the frequency of the the arm with the most probable reward at the each timestamp
 
         Args:
-            times (list): indexes for each simulation
             possible_rewards (list): list if reward was
             rewards (list): rewards
-            n_sims (int): number of simulations
 
         Returns:
-            list: the number of times the best arm was chosen devided by the number of simulations
+            list: the number of times the best arm was chosen divided by the number of simulations
         """
 
-        accuracy = [0.0] * (max(times) + 1)
+        accuracy = []
         for i in range(len(rewards)):
             if possible_rewards[i]:
-                accuracy[times[i]] = rewards[i] / possible_rewards[i]
+                accuracy.append(rewards[i] / possible_rewards[i])
 
         return accuracy
 
     @staticmethod
     def cumulative_reward(times, cumulative_reward, n_sims):
-        """Cumulative rewards devided by number of simulations
+        """Cumulative rewards divided by number of simulations
 
         Args:
             times (list): indexes for each simulation

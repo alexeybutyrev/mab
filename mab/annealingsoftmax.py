@@ -4,7 +4,7 @@ from math import log
 
 
 class AnnealingSoftmax(Softmax):
-    """Anealing Softmax Multi-arms bandit algorythm
+    """Annealing Softmax Multi-arms bandit algorythm
        The idea is to decrease the temerature paramters depending on time
 
     ...
@@ -26,7 +26,7 @@ class AnnealingSoftmax(Softmax):
     All the methods from MAB plus
 
     select_arm()
-        select index of arm to chose next (the core of the algorythm)
+        select index of arm to chose next (the core of the algorithm)
     """
 
     def __init__(self, counts=None, values=None, n_arms=None):
@@ -42,10 +42,10 @@ class AnnealingSoftmax(Softmax):
 
     @property
     def name(self):
-        """Name of the algorythm (depends on parameters)
+        """Name of the algorithm (depends on parameters)
 
         Returns:
-            str: name of the algorythm
+            str: name of the algorithm
         """
         return "AnnealingSoftmax"
 
@@ -55,7 +55,7 @@ class AnnealingSoftmax(Softmax):
         return "Custom solution - 3"
 
     def select_arm(self):
-        """Anealing Softmax algorythm implementaion
+        """Anearing Softmax algorithm implementation
 
         Returns:
             int: arm to select next

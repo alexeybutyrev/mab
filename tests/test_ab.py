@@ -14,6 +14,7 @@ def test_type_check(model):
 def test_select_arm(model):
     assert model.select_arm() == 0
     assert model.select_arm() == 1
+    assert model.select_arm() == 0
 
 
 def test_reset(model):
