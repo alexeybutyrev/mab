@@ -231,7 +231,7 @@ class UISimulation:
         times = list(range(1, self.horizon + 1))
         if "accuracy" in metrics:
             self.metrics["accuracy"] = metric.accuracy(
-                times, self.possible_rewards, self.rewards, 1
+                self.possible_rewards, self.rewards
             )
 
         if "average_reward" in metrics:
