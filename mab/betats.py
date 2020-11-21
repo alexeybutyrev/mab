@@ -69,10 +69,10 @@ class BetaTS(MAB):
 
     @property
     def name(self):
-        """Name of the algorythm
+        """Name of the algorithm
 
         Returns:
-            str: name of the algorythm
+            str: name of the algorithm
         """
         return "BetaTS"
 
@@ -82,7 +82,7 @@ class BetaTS(MAB):
         return "Custom Solution"
 
     def select_arm(self):
-        """Thompson Sampling Algorythm implementaion
+        """Thompson Sampling Algorithm implementation
 
         Returns:
             int: arm to select next
@@ -98,10 +98,10 @@ class BetaTS(MAB):
         return selected_arm
 
     def update(self, chosen_arm, reward):
-        """Update paramters of the algorythm
+        """Update paramters of the algorithm
 
         Args:
-            chosen_arm (int): arm that recieved the reward
+            chosen_arm (int): arm that received the reward
             reward (int): value of reward
         """
         super().update(chosen_arm, reward)
@@ -109,7 +109,7 @@ class BetaTS(MAB):
         self.beta[chosen_arm] += int(1 - reward)
 
     def reset(self):
-        """Reset the Algorythm to the initial state"""
+        """Reset the Algorithm to the initial state"""
         super().reset
         self.alpha = self.init_alpha[:]
         self.beta = self.init_beta[:]

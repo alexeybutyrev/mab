@@ -172,6 +172,10 @@ class UISimulation:
         self.cumulative_rewards = []
         self.possible_rewards = []
         self.marketing_name = algorithm.marketing_name
+
+        # rewards difference compring to AB test assuming we don't know the result
+        self.rewards_difference_to_ab = []
+
         if name is None:
             self.name = algorithm.name
 
@@ -209,6 +213,9 @@ class UISimulation:
             self.possible_rewards.append(possible_minute_rewards)
             self.rewards.append(minute_rewards)
 
+            r = self.algorithm.compare_to_ab()
+
+            self.rewards_difference_to_ab.append(r)
             if self.cumulative_rewards:
                 self.cumulative_rewards.append(
                     self.cumulative_rewards[-1] + minute_rewards
@@ -219,7 +226,14 @@ class UISimulation:
             yield self.env.timeout(1)
 
     def calculate_metrics(
-        self, metrics=["accuracy", "average_reward", "cumulative_reward", "regret"],
+        self,
+        metrics=[
+            "accuracy",
+            "average_reward",
+            "cumulative_reward",
+            "regret",
+            "compare_to_ab",
+        ],
     ):
         """Calculate metrics for existent simualtions
 
@@ -248,4 +262,7 @@ class UISimulation:
             self.metrics["regret"] = metric.regret(
                 times, self.possible_rewards, self.rewards, 1
             )
+
+        if "compare_to_ab" in metrics:
+            self.metrics["compare_to_ab"] = self.rewards_difference_to_ab
 
