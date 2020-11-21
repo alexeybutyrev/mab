@@ -80,3 +80,23 @@ class MAB:
         self.counts[chosen_arm] += 1
         n = self.counts[chosen_arm]
         self.values[chosen_arm] = ((n - 1) / n) * self.values[chosen_arm] + reward / n
+
+    def compare_to_ab(self):
+        """Compare collected rewards agains potential AB test ones
+           ## TODO run it on fly when we're updating rewards now the operation in O(narms) the other case would be O(1)
+        """
+
+        # AB_rewards 2 cases n/2 * (rewards_1/counts_1) + n/2 * (rewards_2/counts_2) which is euqal
+        # AB_rewards = n/2 (rewards_1/counts_1 + rewards_2/counts_2 )
+        # rewards_1/counts_1 == values_1
+        # below is the caclulation of the second multiplier
+        ab_rewards = 0
+        total_rewards = 0
+        for i in range(self.n_arms):
+            ab_rewards += self.values[i]
+            total_rewards += self.values[i] * self.counts[i]
+
+        # multiply result // n_arms. // operator to make it as integer for vis purposes
+        ab_rewards *= sum(self.counts) // self.n_arms
+
+        return total_rewards - ab_rewards
