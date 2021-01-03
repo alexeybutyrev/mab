@@ -21,6 +21,10 @@ class UCB1(MAB):
     n_arms : int
         number of arms
 
+    version_ids (list): list of version ids. 
+    active_arms set: 
+        set of indexes of active arms
+
     Methods:
     -----------
     All the methods from MAB plus
@@ -30,7 +34,9 @@ class UCB1(MAB):
 
     """
 
-    def __init__(self, counts=None, values=None, n_arms=None):
+    def __init__(
+        self, counts=None, values=None, n_arms=None, version_ids=None, active_arms=None
+    ):
         """
         Args:
             counts (list[int]): number of times event happend for each arm.
@@ -38,9 +44,11 @@ class UCB1(MAB):
             values (list[float]): total rewards for each arm
                                 Defaults to [0.0] * n_arms
             n_arms (int): Number of arms. Defaults to len(counts)
-
+            version_ids (list): list of version ids. 
+                                Defaults to list of indexes as strings
+            active_arms (set): set of indexes of active arms
         """
-        super().__init__(counts, values, n_arms)
+        super().__init__(counts, values, n_arms, version_ids, active_arms)
 
     @property
     def name(self):

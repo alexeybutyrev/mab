@@ -4,7 +4,7 @@ from math import log
 
 
 class AnnealingSoftmax(Softmax):
-    """Annealing Softmax Multi-arms bandit algorythm
+    """Annealing Softmax Multi-arms bandit algorithm
        The idea is to decrease the temerature paramters depending on time
 
     ...
@@ -21,6 +21,15 @@ class AnnealingSoftmax(Softmax):
     n_arms : int
         number of arms
 
+    version_ids : list
+        list of version ids
+    
+    temperature : float
+        Softmax parameter. Reccomended not to change
+    
+    active_arms : set
+            set of indexes of active arms
+
     Methods:
     -----------
     All the methods from MAB plus
@@ -29,7 +38,15 @@ class AnnealingSoftmax(Softmax):
         select index of arm to chose next (the core of the algorithm)
     """
 
-    def __init__(self, counts=None, values=None, n_arms=None):
+    def __init__(
+        self,
+        counts=None,
+        values=None,
+        n_arms=None,
+        version_ids=None,
+        active_arms=None,
+        temperature=1.0,
+    ):
         """
         Args:
             counts (list[int]): number of times event happend for each arm.
@@ -37,8 +54,11 @@ class AnnealingSoftmax(Softmax):
             values (list[float]): total rewards for each arm
                                 Defaults to [0.0] * n_arms
             n_arms (int): Number of arms. Defaults to len(counts)
+            version_ids (list): list of version ids. Defaults to list of indexes as strings
+            temperature (float): Softmax parameter. Reccomended not to change. Defaults to 1.0
+            active_arms (set): set of indexes of active arms
         """
-        super().__init__(1.0, counts, values, n_arms)
+        super().__init__(temperature, counts, values, n_arms, version_ids, active_arms)
 
     @property
     def name(self):
@@ -60,7 +80,9 @@ class AnnealingSoftmax(Softmax):
         Returns:
             int: arm to select next
         """
-        t = sum(self.counts) + 1
+        t = 1
+        for a in self.active_arms:
+            t += self.counts[a] + 1
         self.temperature = 1.0 / log(t + 0.0000001)
         # update epsilon if weaknes multipler was set
         return super(AnnealingSoftmax, self).select_arm()

@@ -27,6 +27,12 @@ class BetaTS(MAB):
     n_arms : int
         number of arms
 
+    version_ids : list
+        list of version ids
+                    
+    active_arms : set
+        set of indexes of active arms
+
     Methods:
     -----------
     reset()
@@ -37,24 +43,38 @@ class BetaTS(MAB):
 
     update(chosen_arm, reward)
         updated chosen arm with the recieved reward
+    
     """
 
-    def __init__(self, alpha=None, beta=None, counts=None, values=None, n_arms=None):
+    def __init__(
+        self,
+        alpha=None,
+        beta=None,
+        counts=None,
+        values=None,
+        n_arms=None,
+        version_ids=None,
+        active_arms=None,
+    ):
         """[summary]
 
         Args:
-            alpha (list, optional): alpha paramter for each arm. Defaults to list of ones
+            alpha (list, optional): alpha parameter for each arm. Defaults to list of ones
 
-            beta (list, optional):  beta paramter for each arm. Defaults to list of ones
+            beta (list, optional):  beta parameter for each arm. Defaults to list of ones
 
             counts (list[int]): number of times event happend for each arm.
                                 Defaults to [0] * n_arms
             values (list[float]): total rewards for each arm
                                 Defaults to [0.0] * n_arms
             n_arms (int): Number of arms. Defaults to len(counts)
+            
+            version_ids (list): list of version ids. 
+                                Defaults to list of indexes as strings
 
+            active_arms (set): list with indexes of active versions. When it's none it's set as all the versions
         """
-        super().__init__(counts, values, n_arms)
+        super().__init__(counts, values, n_arms, version_ids, active_arms)
         if alpha is None:
             alpha = [1] * self.n_arms
 
@@ -64,8 +84,8 @@ class BetaTS(MAB):
         self.alpha = alpha
         self.beta = beta
 
-        self.init_alpha = alpha[:]
-        self.init_beta = beta[:]
+        self.__init_alpha = alpha[:]
+        self.__init_beta = beta[:]
 
     @property
     def name(self):
@@ -90,10 +110,11 @@ class BetaTS(MAB):
         mx_ = -inf
         selected_arm = 0
         for arm in range(self.n_arms):
-            tetta = beta_distribution(self.alpha[arm], self.beta[arm])
-            if mx_ < tetta:
-                mx_ = tetta
-                selected_arm = arm
+            if arm not in self.active_arms:
+                tetta = beta_distribution(self.alpha[arm], self.beta[arm])
+                if mx_ < tetta:
+                    mx_ = tetta
+                    selected_arm = arm
 
         return selected_arm
 
@@ -111,5 +132,5 @@ class BetaTS(MAB):
     def reset(self):
         """Reset the Algorithm to the initial state"""
         super().reset
-        self.alpha = self.init_alpha[:]
-        self.beta = self.init_beta[:]
+        self.alpha = self.__init_alpha[:]
+        self.beta = self.__init_beta[:]
