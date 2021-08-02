@@ -29,7 +29,7 @@ Two ways to install
 
 ```markdown
 - Clone this repository
-- `pip install mab-hakuinadvisors`
+- pip install mab-hakuinadvisors
 ```
 
 ## How to Use
