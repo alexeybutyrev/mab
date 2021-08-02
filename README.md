@@ -1,7 +1,7 @@
 # MAB
 
 ## Description
-Multi-armed Bandit libraty. It provides implementation of main algorithms like:
+Multi-armed Bandit library. It provides implementation of main algorithms like:
 
 - EpsionGreedy
 - BetaTS
