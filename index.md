@@ -1,37 +1,50 @@
-## Welcome to GitHub Pages
+## MAB
 
-You can use the [editor on GitHub](https://github.com/alexeybutyrev/mab/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+![Image](https://multithreaded.stitchfix.com/assets/posts/2020-08-05-bandits/multi_armed_bandit.png)
+Multi-armed Bandit set of alogrithms written in Python. The source code can be found on [github](https://github.com/alexeybutyrev/mab).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### List of MAB implementations
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- EpsionGreedy
+- BetaTS
+- Softmax
+- UCB1
+- AnnealingSoftmax
+- AnnealingEpsionGreedy
+- AB testing
+- Random Select
+
+Also, the package has trial simulations:
+
+- Motecarlo Simulation
+
+with different types of rewards
+
+- Bernoulli Arms (binary rewards)
+- Uniform Arms   (uniformly distributed rewards)
+
+## How to Install
+Two ways to install
 
 ```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+- Clone this repository
+- `pip install mab-hakuinadvisors`
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## How to Use
 
-### Jekyll Themes
+The best usage example can be found in the file `simulation.ipynb`
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/alexeybutyrev/mab/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+The package can be used as
+- A part of another library or software
+- API (in progress)
+- Theoretical learning by using simulations like in `simulation.ipynb` or with different types of rewards, algorythms and simulation parameters
 
-### Support or Contact
+## Documentation
+The full documentation of the library and its functionality can be found [here](https://mab.readthedocs.io/en/latest/). Note the documentation is not compleated.
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+
+### Authors
+
+If you have any questions email to [Alexey Butyrev](butirev@gmail.com), [Drew Maniglia](drew@hakuinadvisors.com)
