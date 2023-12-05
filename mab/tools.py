@@ -1,12 +1,10 @@
-from . import (
-    AB,
-    UCB1,
-    Softmax,
-    BetaTS,
-    EpsilonGreedy,
-    RandomSelect,
-    AnnealingSoftmax,
-)
+from mab.ab import AB
+from mab.ucb1 import UCB1
+from mab.annealingsoftmax import AnnealingSoftmax
+from mab.betats import BetaTS
+from mab.softmax import Softmax
+from mab.epsilongreedy import EpsilonGreedy
+from mab.randomselect import RandomSelect
 
 
 def dict2MAB(d: dict):
