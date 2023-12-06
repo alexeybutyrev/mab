@@ -175,4 +175,4 @@ def test_sync_settings(model):
 
     assert 1 not in model.active_arms
     assert 3 == len(model.active_arms)
-    assert "version2" not in model.active_versions()
+    assert "version2" not in model.active_versions

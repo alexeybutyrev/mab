@@ -1,5 +1,6 @@
 import pickle
 import codecs
+from typing import List, Set, Union
 
 
 class MAB:
@@ -43,7 +44,12 @@ class MAB:
     """
 
     def __init__(
-        self, counts=None, values=None, n_arms=None, version_ids=None, active_arms=None,
+        self,
+        counts: List[int] = None,
+        values: List[float] = None,
+        n_arms: int = None,
+        version_ids: List[str] = None,
+        active_arms: Set[int] = None,
     ):
         """
         Args:
@@ -97,7 +103,7 @@ class MAB:
             if not x.startswith("_"):
                 yield x, y
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         """ Return MAB as a dictionary
             to restore the object later
 
@@ -112,7 +118,7 @@ class MAB:
         self.counts = self.__init_counts[:]
         self.values = self.__init_values[:]
 
-    def select_arm(self):
+    def select_arm(self) -> int:
         """Select Arm of MAB:
         returns index of the arms
         must be chosed by algorythm
@@ -124,7 +130,7 @@ class MAB:
         """
         return self.select_version[self.select_arm()]
 
-    def update(self, chosen_arm, reward):
+    def update(self, chosen_arm: Union[int, str], reward: float) -> None:
         """Update chosen arm
 
         Args:
@@ -158,7 +164,7 @@ class MAB:
 
         return total_rewards - ab_rewards
 
-    def pickle(self):
+    def pickle(self) -> str:
         """ Pickle itself into a string
 
         Returns:
@@ -167,7 +173,7 @@ class MAB:
 
         return codecs.encode(pickle.dumps(self), "base64").decode()
 
-    def add_version(self, version_id=None, is_active=True):
+    def add_version(self, version_id: str = None, is_active: bool = True):
         """ Add version to MAB
             Same as add ARM
         Args:
@@ -175,7 +181,7 @@ class MAB:
         """
         self.add_arm(version_id, is_active)
 
-    def add_arm(self, version_id=None, is_active=True):
+    def add_arm(self, version_id: str = None, is_active: bool = True):
         """ Add ARM to MAB
             
             Args:
@@ -197,7 +203,7 @@ class MAB:
         if is_active:
             self.activate_arm(self.n_arms - 1)
 
-    def activate_arm(self, index):
+    def activate_arm(self, index: int):
         """ Make inactive (or active) version active
 
         Args:
@@ -250,7 +256,7 @@ class MAB:
         active_versions = mab_settings["active_versions"]
 
         # update new versions is not found
-        for i, v in enumerate(active_versions):
+        for v in active_versions:
             if v not in self.version_ids:
                 self.version_ids.append(v)
                 self.__version_to_index[v] = self.n_arms
@@ -258,6 +264,6 @@ class MAB:
 
         # rewrite active arms
         self.active_arms = {self.__version_to_index[v] for v in active_versions}
-
+    @property
     def active_versions(self):
         return [self.version_ids[a] for a in self.active_arms]
