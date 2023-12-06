@@ -1,5 +1,5 @@
-from .mab import MAB
-import random
+from mab import MAB
+from typing import List, Set, Union
 
 
 class AB(MAB):
@@ -36,12 +36,12 @@ class AB(MAB):
 
     def __init__(
         self,
-        counts=None,
-        values=None,
-        n_arms=None,
-        version_ids=None,
-        current_arm=0,
-        active_arms=None,
+        counts: List[int] = None,
+        values: List[float] = None,
+        n_arms: int = None,
+        version_ids: List[str] = None,
+        current_arm: int = 0,
+        active_arms: Set[int] = None,
     ):
         """
         Args:
@@ -60,7 +60,7 @@ class AB(MAB):
         self.current_arm = current_arm
 
     @property
-    def name(self):
+    def name(self) -> str:
         """name of the algorythm
 
         Returns:
@@ -69,11 +69,11 @@ class AB(MAB):
         return "AB-test"
 
     @property
-    def marketing_name(self):
+    def marketing_name(self) -> str:
         """High level produnction name"""
         return "One by one A/B"
 
-    def select_arm(self):
+    def select_arm(self) -> int:
         """Select next arm one by one
 
         Returns:

@@ -125,10 +125,10 @@ class MAB:
         """
         pass
 
-    def select_version(self):
+    def select_version(self) -> str:
         """ return version_id for selected arm
         """
-        return self.select_version[self.select_arm()]
+        return self.version_ids[self.select_arm()]
 
     def update(self, chosen_arm: Union[int, str], reward: float) -> None:
         """Update chosen arm
@@ -264,6 +264,7 @@ class MAB:
 
         # rewrite active arms
         self.active_arms = {self.__version_to_index[v] for v in active_versions}
+
     @property
-    def active_versions(self):
+    def active_versions(self) -> List[str]:
         return [self.version_ids[a] for a in self.active_arms]
