@@ -1,6 +1,7 @@
 from collections import defaultdict
 from random import randint
-from .metric import Metric
+from mab.metric import Metric
+from mab.mab import MAB
 
 
 class EventsSimulation:
@@ -31,7 +32,7 @@ class EventsSimulation:
         run simulation
     """
 
-    def __init__(self, env, algorithm, arms, name=None):
+    def __init__(self, env, algorithm: MAB, arms, name=None):
         """
         Args:
             algorithm(MAB): Multiarm Bandit algorithm

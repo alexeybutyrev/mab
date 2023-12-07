@@ -1,5 +1,6 @@
 import random
-from .mab import MAB
+from mab.mab import MAB
+from typing import List, Set
 
 
 class RandomSelect(MAB):
@@ -32,7 +33,12 @@ class RandomSelect(MAB):
     """
 
     def __init__(
-        self, counts=None, values=None, n_arms=None, version_ids=None, active_arms=None
+        self,
+        counts: List[int] = None,
+        values: List[float] = None,
+        n_arms: int = None,
+        version_ids: List[str] = None,
+        active_arms: Set[int] = None,
     ):
         """
         Args:
@@ -47,7 +53,7 @@ class RandomSelect(MAB):
         super().__init__(counts, values, n_arms, version_ids, active_arms)
 
     @property
-    def name(self):
+    def name(self) -> str:
         """name of the algorithm
 
         Returns:
@@ -56,11 +62,11 @@ class RandomSelect(MAB):
         return "RandomSelect"
 
     @property
-    def marketing_name(self):
+    def marketing_name(self) -> str:
         """High level produnction name"""
         return "A/B Testing"
 
-    def select_arm(self):
+    def select_arm(self) -> int:
         """Randomly select next arm
 
         Returns:

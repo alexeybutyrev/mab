@@ -1,6 +1,6 @@
-import random
-from .softmax import Softmax
+from mab.softmax import Softmax
 from math import log
+from typing import List, Set
 
 
 class AnnealingSoftmax(Softmax):
@@ -40,12 +40,12 @@ class AnnealingSoftmax(Softmax):
 
     def __init__(
         self,
-        counts=None,
-        values=None,
-        n_arms=None,
-        version_ids=None,
-        active_arms=None,
-        temperature=1.0,
+        counts: List[int] = None,
+        values: List[float] = None,
+        n_arms: int = None,
+        version_ids: List[str] = None,
+        active_arms: Set[int] = None,
+        temperature: float = 1.0,
     ):
         """
         Args:
@@ -61,7 +61,7 @@ class AnnealingSoftmax(Softmax):
         super().__init__(temperature, counts, values, n_arms, version_ids, active_arms)
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Name of the algorithm (depends on parameters)
 
         Returns:
@@ -70,7 +70,7 @@ class AnnealingSoftmax(Softmax):
         return "AnnealingSoftmax"
 
     @property
-    def marketing_name(self):
+    def marketing_name(self) -> str:
         """High level produnction name"""
         return "Custom solution - 3"
 

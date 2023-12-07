@@ -4,13 +4,13 @@ import numpy as np
 
 def plot(
     mc,
-    metric="accuracy",
-    title="",
-    horizon=None,
-    add_diagonal=False,
-    is_marketing_name=False,
-    is_percents=False,
-):
+    metric: str = "accuracy",
+    title: str = "",
+    horizon: int = None,
+    add_diagonal: bool = False,
+    is_marketing_name: bool = False,
+    is_percents: bool = False,
+) -> go.Figure:
     """
         Help function to make plotly charts of the monte carlo simulation
 

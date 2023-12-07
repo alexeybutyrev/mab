@@ -1,7 +1,7 @@
-import random
-from .mab import MAB
+from mab.mab import MAB
 from random import choices
 from math import exp
+from typing import List, Set
 
 
 class Softmax(MAB):
@@ -41,12 +41,12 @@ class Softmax(MAB):
 
     def __init__(
         self,
-        temperature=0.1,
-        counts=None,
-        values=None,
-        n_arms=None,
-        version_ids=None,
-        active_arms=None,
+        temperature: float = 0.1,
+        counts: List[int] = None,
+        values: List[float] = None,
+        n_arms: int = None,
+        version_ids: List[str] = None,
+        active_arms: Set[int] = None,
     ):
         """
         Args:
@@ -66,7 +66,7 @@ class Softmax(MAB):
         self.temperature = temperature  # parameter of the algorithm
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Name of the algorithm (depends on parameters)
 
         Returns:
@@ -75,11 +75,11 @@ class Softmax(MAB):
         return "Softmax. T=" + str(self.temperature)
 
     @property
-    def marketing_name(self):
+    def marketing_name(self) -> str:
         """High level produnction name"""
         return "Custom solution - 2"
 
-    def select_arm(self):
+    def select_arm(self) -> int:
         """Softmax algorythm implementaion
 
         Returns:

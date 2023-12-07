@@ -19,7 +19,7 @@ class BernoulliArm:
 
     """
 
-    def __init__(self, p, seed=30):
+    def __init__(self, p: float, seed: int = 30):
         """
         Args:
             p (float): probabilty of choosing arm [0,1]
@@ -28,7 +28,7 @@ class BernoulliArm:
         self.p = p
         assert p >= 0 and p <= 1
 
-    def draw(self):
+    def draw(self) -> float:
         """Randomly return reward with set probablity
 
         Returns:
@@ -61,7 +61,7 @@ class UniformArm:
 
     """
 
-    def __init__(self, a=0.0, b=1.0):
+    def __init__(self, a: float = 0.0, b: float = 1.0):
         """
         Args:
             a (float, optional): lower bound for reward. Defaults to 0.0.
@@ -70,7 +70,7 @@ class UniformArm:
         self.a = a
         self.b = b
 
-    def draw(self):
+    def draw(self) -> float:
         """Randomly return reward as uniform distribution
 
         Returns:

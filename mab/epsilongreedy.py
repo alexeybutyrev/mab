@@ -1,5 +1,6 @@
 import random
-from .mab import MAB
+from mab.mab import MAB
+from typing import List, Set
 
 
 class EpsilonGreedy(MAB):
@@ -48,13 +49,13 @@ class EpsilonGreedy(MAB):
 
     def __init__(
         self,
-        epsilon=1.0,
-        counts=None,
-        values=None,
-        n_arms=None,
-        version_ids=None,
-        weakness_mult=None,
-        active_arms=None,
+        epsilon: float = 1.0,
+        counts: List[int] = None,
+        values: List[float] = None,
+        n_arms: int = None,
+        version_ids: List[str] = None,
+        active_arms: Set[int] = None,
+        weakness_mult: float = None,
     ):
         """
         Args:
@@ -83,7 +84,7 @@ class EpsilonGreedy(MAB):
         self.__init_epsilon = self.epsilon
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Name of the algorythm (depends on parameters)
 
         Returns:
@@ -95,11 +96,11 @@ class EpsilonGreedy(MAB):
             return "EpsilonWeakGreedy - " + str(self.weakness_mult)
 
     @property
-    def marketing_name(self):
+    def marketing_name(self) -> str:
         """High level produnction name"""
         return "PM's solution"
 
-    def select_arm(self):
+    def select_arm(self) -> int:
         """EpsilonGreedy algorythm implementaion
 
         Returns:

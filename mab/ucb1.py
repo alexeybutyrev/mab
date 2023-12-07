@@ -1,6 +1,6 @@
-import random
-from .mab import MAB
+from mab.mab import MAB
 from math import log, sqrt
+from typing import List, Set
 
 
 class UCB1(MAB):
@@ -35,7 +35,12 @@ class UCB1(MAB):
     """
 
     def __init__(
-        self, counts=None, values=None, n_arms=None, version_ids=None, active_arms=None
+        self,
+        counts: List[int] = None,
+        values: List[float] = None,
+        n_arms: int = None,
+        version_ids: List[str] = None,
+        active_arms: Set[int] = None,
     ):
         """
         Args:
@@ -51,7 +56,7 @@ class UCB1(MAB):
         super().__init__(counts, values, n_arms, version_ids, active_arms)
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Name of the algorythm (depends on parameters)
 
         Returns:
@@ -60,11 +65,11 @@ class UCB1(MAB):
         return "UCB1"
 
     @property
-    def marketing_name(self):
+    def marketing_name(self) -> str:
         """High level produnction name"""
         return "Custom solution - 4"
 
-    def select_arm(self):
+    def select_arm(self) -> int:
         """Upper Confidence Boundary1 algorythm implementaion
 
         Returns:

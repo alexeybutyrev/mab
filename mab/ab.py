@@ -1,4 +1,4 @@
-from mab import MAB
+from mab.mab import MAB
 from typing import List, Set, Union
 
 

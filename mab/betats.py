@@ -1,6 +1,7 @@
-from .mab import MAB
+from mab.mab import MAB
 from numpy.random import beta as beta_distribution
 from math import inf
+from typing import List, Set
 
 
 class BetaTS(MAB):
@@ -48,13 +49,13 @@ class BetaTS(MAB):
 
     def __init__(
         self,
-        alpha=None,
-        beta=None,
-        counts=None,
-        values=None,
-        n_arms=None,
-        version_ids=None,
-        active_arms=None,
+        alpha: List[int] = None,
+        beta: List[int] = None,
+        counts: List[int] = None,
+        values: List[float] = None,
+        n_arms: int = None,
+        version_ids: List[str] = None,
+        active_arms: Set[int] = None,
     ):
         """[summary]
 
@@ -88,7 +89,7 @@ class BetaTS(MAB):
         self.__init_beta = beta[:]
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Name of the algorithm
 
         Returns:
@@ -97,11 +98,11 @@ class BetaTS(MAB):
         return "BetaTS"
 
     @property
-    def marketing_name(self):
+    def marketing_name(self) -> str:
         """High level produnction name"""
         return "Custom Solution"
 
-    def select_arm(self):
+    def select_arm(self) -> int:
         """Thompson Sampling Algorithm implementation
 
         Returns:
