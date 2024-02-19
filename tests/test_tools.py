@@ -1,4 +1,3 @@
-from mab import betats
 from mab.tools import dict2MAB
 from mab.ab import AB
 from mab.ucb1 import UCB1
@@ -24,6 +23,7 @@ def test_dict2MAB_AnnealingSoftmax():
 
     obj = dict2MAB(m.to_dict())
     assert isinstance(obj, AnnealingSoftmax)
+
 
 def test_dict2MAB_Softmax():
     m = Softmax(0.2, [10, 20], [0.1, 0.5])
@@ -55,6 +55,7 @@ def test_dict2MAB_RandomSelect():
 
     obj = dict2MAB(m.to_dict())
     assert isinstance(obj, RandomSelect)
+
 
 def test_dict2MAB_UCB1():
     m = UCB1([10, 20], [0.1, 0.5])

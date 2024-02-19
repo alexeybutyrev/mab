@@ -1,7 +1,11 @@
-from collections import defaultdict
-from random import randint
-from mab.metric import Metric
+""" Module for realtime simulation"""
+import collections
+import random
+from mab import metric
 from mab.mab import MAB
+from mab import enums
+from simpy import Environment
+from typing import List
 
 
 class EventsSimulation:
@@ -32,7 +36,9 @@ class EventsSimulation:
         run simulation
     """
 
-    def __init__(self, env, algorithm: MAB, arms, name=None):
+    def __init__(
+        self, env: Environment, algorithm: MAB, arms: List[int], name: str = None
+    ):
         """
         Args:
             algorithm(MAB): Multiarm Bandit algorithm
@@ -53,7 +59,7 @@ class EventsSimulation:
         if name is None:
             self.name = algorithm.name
 
-        self.metrics = defaultdict(list)
+        self.metrics = collections.defaultdict(list)
         self.action = env.process(self.run())
 
     def reset(self):
@@ -90,15 +96,15 @@ class EventsSimulation:
             yield self.env.timeout(1)
 
     def calculate_metrics(
-        self, metrics=["accuracy", "average_reward", "cumulative_reward", "regret"],
+        self, metrics: List[str] = None,
     ):
-        metric = Metric
         """Calculate metrics for existent simulations
 
             Args:
-                metric (Metric): object with metrics calculations
                 metrics (list, optional): [description]. List of metrics to make calculations ["accuracy", "average_reward", "cumulative_reward", "regret"].
             """
+        if not metrics:
+            metrics = enums.CORE_METRICS
         times = list(range(1, self.horizon + 1))
         if "accuracy" in metrics:
             self.metrics["accuracy"] = metric.accuracy(
@@ -151,7 +157,13 @@ class UISimulation:
     """
 
     def __init__(
-        self, env, algorithm, arms, n_customers_low, n_customers_high, name=None
+        self,
+        env: Environment,
+        algorithm: MAB,
+        arms: List[int],
+        n_customers_low: int,
+        n_customers_high: int,
+        name: str = None,
     ):
         """
         Args:
@@ -180,7 +192,7 @@ class UISimulation:
         if name is None:
             self.name = algorithm.name
 
-        self.metrics = defaultdict(list)
+        self.metrics = collections.defaultdict(list)
         self.action = env.process(self.run())
 
     def reset(self):
@@ -197,7 +209,7 @@ class UISimulation:
             self.horizon += 1
             minute_rewards = 0
             possible_minute_rewards = 0
-            for _ in range(randint(self.n_customers_low, self.n_customers_high)):
+            for _ in range(random.randint(self.n_customers_low, self.n_customers_high)):
                 chosen_arm = self.algorithm.select_arm()
                 self.chosen_arms.append(chosen_arm)
 
@@ -227,43 +239,27 @@ class UISimulation:
             yield self.env.timeout(1)
 
     def calculate_metrics(
-        self,
-        metrics=[
-            "accuracy",
-            "average_reward",
-            "cumulative_reward",
-            "regret",
-            "compare_to_ab",
-        ],
+        self, metrics: List[str] = None,
     ):
-        """Calculate metrics for existent simualtions
-
+        """Calculate metrics for existent simulations
             Args:
-                metric (Metric): object with metrics calculations
                 metrics (list, optional): [description]. List of metrics to make calculations ["accuracy", "average_reward", "cumulative_reward", "regret"].
             """
-        metric = Metric
+        if not metrics:
+            metrics = enums.CORE_METRICS
         times = list(range(1, self.horizon + 1))
-        if "accuracy" in metrics:
-            self.metrics["accuracy"] = metric.accuracy(
-                self.possible_rewards, self.rewards
+
+        experiment_rewards = metric.ExperimentRewards(
+            times=times,
+            possible_rewards=self.possible_rewards,
+            rewards=self.rewards,
+            cumulative_rewards=self.cumulative_rewards,
+        )
+        for metric_name in metrics:
+            self.metrics[metric_name] = metric.metrics_mapping[metric_name](
+                experiment_rewards
             )
 
-        if "average_reward" in metrics:
-            self.metrics["average_reward"] = metric.average_reward(
-                times, self.possible_rewards, self.rewards, 1
-            )
-
-        if "cumulative_reward" in metrics:
-            self.metrics["cumulative_reward"] = metric.cumulative_reward(
-                times, self.cumulative_rewards, 1
-            )
-
-        if "regret" in metrics:
-            self.metrics["regret"] = metric.regret(
-                times, self.possible_rewards, self.rewards, 1
-            )
-
-        if "compare_to_ab" in metrics:
-            self.metrics["compare_to_ab"] = self.rewards_difference_to_ab
+        if enums.COMPARE_TO_AB in metrics:
+            self.metrics[enums.COMPARE_TO_AB] = self.rewards_difference_to_ab
 
