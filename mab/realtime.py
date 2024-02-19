@@ -1,11 +1,11 @@
 """ Module for realtime simulation"""
 import collections
 import random
+from typing import List, Dict
+from simpy import Environment
 from mab import metric
 from mab.mab import MAB
 from mab import enums
-from simpy import Environment
-from typing import List
 
 
 class EventsSimulation:
@@ -36,6 +36,7 @@ class EventsSimulation:
         run simulation
     """
 
+    # pylint: disable=too-many-instance-attributes
     def __init__(
         self, env: Environment, algorithm: MAB, arms: List[int], name: str = None
     ):
@@ -63,6 +64,7 @@ class EventsSimulation:
         self.action = env.process(self.run())
 
     def reset(self):
+        """ Reset Everything """
         self.algorithm.reset()
 
     def run(self):
@@ -96,40 +98,48 @@ class EventsSimulation:
             yield self.env.timeout(1)
 
     def calculate_metrics(
-        self, metrics: List[str] = None,
+        self, metrics: Dict[str, list] = None,
     ):
         """Calculate metrics for existent simulations
 
             Args:
-                metrics (list, optional): [description]. List of metrics to make calculations ["accuracy", "average_reward", "cumulative_reward", "regret"].
+                metrics (list, optional): [description]. 
+                List of metrics to make calculations 
+                ["accuracy", "average_reward", "cumulative_reward", "regret"].
             """
         if not metrics:
             metrics = enums.CORE_METRICS
         times = list(range(1, self.horizon + 1))
         if "accuracy" in metrics:
-            self.metrics["accuracy"] = metric.accuracy(
-                times, self.possible_rewards, self.rewards, 1
+            self.metrics["accuracy"] = metric.MetricsCalculator.calculate_accuracy(
+                metric.ExperimentRewards(times, self.possible_rewards, self.rewards, 1)
             )
 
         if "average_reward" in metrics:
-            self.metrics["average_reward"] = metric.average_reward(
-                times, self.possible_rewards, self.rewards, 1
+            self.metrics[
+                "average_reward"
+            ] = metric.MetricsCalculator.calculate_average_reward(
+                metric.ExperimentRewards(times, self.possible_rewards, self.rewards, 1)
             )
 
         if "cumulative_reward" in metrics:
-            self.metrics["cumulative_reward"] = metric.cumulative_reward(
-                times, self.cumulative_rewards, 1
+            self.metrics[
+                "cumulative_reward"
+            ] = metric.MetricsCalculator.calculate_cumulative_reward(
+                metric.ExperimentRewards(times, self.cumulative_rewards, 1)
             )
 
         if "regret" in metrics:
-            self.metrics["regret"] = metric.regret(
-                times, self.possible_rewards, self.rewards, 1
+            self.metrics["regret"] = metric.MetricsCalculator.calculate_regret(
+                metric.ExperimentRewards(times, self.possible_rewards, self.rewards, 1)
             )
 
 
 class UISimulation:
     """
-    UISimulation -  Simulation of the UI when random N users (between Nmin and Nmax) come to the UI every minute and do some actions with preset arms (probailties to click on each action)
+    UISimulation -  Simulation of the UI when random N users (between Nmin and Nmax) 
+    come to the UI every minute and do some actions with preset arms 
+    (probailties to click on each action)
 
     ...
 
@@ -156,6 +166,8 @@ class UISimulation:
         run simulation
     """
 
+    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         env: Environment,
@@ -196,6 +208,7 @@ class UISimulation:
         self.action = env.process(self.run())
 
     def reset(self):
+        """ Reset everything """
         self.algorithm.reset()
 
     def run(self):
@@ -226,9 +239,7 @@ class UISimulation:
             self.possible_rewards.append(possible_minute_rewards)
             self.rewards.append(minute_rewards)
 
-            r = self.algorithm.compare_to_ab()
-
-            self.rewards_difference_to_ab.append(r)
+            self.rewards_difference_to_ab.append(self.algorithm.compare_to_ab())
             if self.cumulative_rewards:
                 self.cumulative_rewards.append(
                     self.cumulative_rewards[-1] + minute_rewards
@@ -243,7 +254,9 @@ class UISimulation:
     ):
         """Calculate metrics for existent simulations
             Args:
-                metrics (list, optional): [description]. List of metrics to make calculations ["accuracy", "average_reward", "cumulative_reward", "regret"].
+                metrics (list, optional): [description]. 
+                List of metrics to make calculations 
+                ["accuracy", "average_reward", "cumulative_reward", "regret"].
             """
         if not metrics:
             metrics = enums.CORE_METRICS
@@ -255,11 +268,8 @@ class UISimulation:
             rewards=self.rewards,
             cumulative_rewards=self.cumulative_rewards,
         )
-        for metric_name in metrics:
-            self.metrics[metric_name] = metric.metrics_mapping[metric_name](
-                experiment_rewards
-            )
+        for metric_name, metric_fun in metric.METRICS_MAPPING.items():
+            self.metrics[metric_name] = metric_fun(experiment_rewards)
 
         if enums.COMPARE_TO_AB in metrics:
             self.metrics[enums.COMPARE_TO_AB] = self.rewards_difference_to_ab
-

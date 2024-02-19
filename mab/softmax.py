@@ -1,7 +1,11 @@
-from mab.mab import MAB
+"""
+    Softmax Muli-armed banded
+"""
+
 from random import choices
 from math import exp
 from typing import List, Set
+from mab.mab import MAB
 
 
 class Softmax(MAB):
@@ -39,18 +43,20 @@ class Softmax(MAB):
         select index of arm to chose next (the core of the algorithm)
     """
 
+    # pylint: disable=too-many-arguments
     def __init__(
         self,
-        temperature: float = 0.1,
         counts: List[int] = None,
         values: List[float] = None,
         n_arms: int = None,
         version_ids: List[str] = None,
         active_arms: Set[int] = None,
+        temperature: float = 0.1,
     ):
         """
         Args:
-            temperature (float, optional): control parameter for select with proportional to the rewards
+            temperature (float, optional): control parameter for select 
+                                    with proportional to the rewards
                                        Defaults to 1.0.
             counts (list[int]): number of times event happend for each arm.
                                 Defaults to [0] * n_arms
@@ -86,7 +92,7 @@ class Softmax(MAB):
             int: arm to select next
         """
         # update epsilon if weaknes multipler was set
-        # TODO change logic with active versions
+        # TODO: Implement logic to handle active versions
         probs = [exp(v / self.temperature) for v in self.values]
         scale_denomiator = sum(probs)
         probs = [p / scale_denomiator for p in probs]

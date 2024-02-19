@@ -1,7 +1,10 @@
-from mab.mab import MAB
-from numpy.random import beta as beta_distribution
+"""
+    Thompson Sampling Muli-armed banded with Betta Distribution
+"""
 from math import inf
 from typing import List, Set
+from numpy.random import beta as beta_distribution
+from mab.mab import MAB
 
 
 class BetaTS(MAB):
@@ -47,6 +50,7 @@ class BetaTS(MAB):
     
     """
 
+    # pylint: disable=too-many-arguments
     def __init__(
         self,
         alpha: List[int] = None,
@@ -73,7 +77,8 @@ class BetaTS(MAB):
             version_ids (list): list of version ids. 
                                 Defaults to list of indexes as strings
 
-            active_arms (set): list with indexes of active versions. When it's none it's set as all the versions
+            active_arms (set): list with indexes of active versions. 
+                When it's none it's set as all the versions
         """
         super().__init__(counts, values, n_arms, version_ids, active_arms)
         if alpha is None:
@@ -132,6 +137,6 @@ class BetaTS(MAB):
 
     def reset(self):
         """Reset the Algorithm to the initial state"""
-        super().reset
+        super().reset()
         self.alpha = self.__init_alpha[:]
         self.beta = self.__init_beta[:]

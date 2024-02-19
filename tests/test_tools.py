@@ -1,6 +1,6 @@
 from mab.tools import dict2MAB
 from mab.ab import AB
-from mab.ucb1 import UCB1
+from mab.ucb import UCB1
 from mab.annealingsoftmax import AnnealingSoftmax
 from mab.betats import BetaTS
 from mab.softmax import Softmax
@@ -26,7 +26,7 @@ def test_dict2MAB_AnnealingSoftmax():
 
 
 def test_dict2MAB_Softmax():
-    m = Softmax(0.2, [10, 20], [0.1, 0.5])
+    m = Softmax([10, 20], [0.1, 0.5], temperature=0.2)
 
     obj = dict2MAB(m.to_dict())
     assert isinstance(obj, Softmax)

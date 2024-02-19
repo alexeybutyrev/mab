@@ -1,4 +1,4 @@
-from mab.ucb1 import UCB1
+from mab.ucb import UCB1
 import pytest
 
 

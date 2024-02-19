@@ -1,3 +1,7 @@
+"""Bernoulli distribution Bandit Arm
+    Randomly give reward with probability p
+"""
+# pylint: disable=too-few-public-methods
 import random
 
 
@@ -9,7 +13,7 @@ class BernoulliArm:
     Attributes:
     ----------
 
-    p : float
+    prob : float
         probablity of the reward
 
     Methods:
@@ -19,14 +23,14 @@ class BernoulliArm:
 
     """
 
-    def __init__(self, p: float, seed: int = 30):
+    def __init__(self, prob: float, seed: int = 30):
         """
         Args:
-            p (float): probabilty of choosing arm [0,1]
+            prob (float): probabilty of choosing arm [0,1]
         """
-        random.seed(30)
-        self.p = p
-        assert p >= 0 and p <= 1
+        random.seed(seed)
+        self.prob = prob
+        assert 0 <= prob <= 1
 
     def draw(self) -> float:
         """Randomly return reward with set probablity
@@ -34,10 +38,10 @@ class BernoulliArm:
         Returns:
             float [0.0, 1.0]: reward
         """
-        if random.random() > self.p:
+        if random.random() > self.prob:
             return 0.0
-        else:
-            return 1.0
+
+        return 1.0
 
 
 class UniformArm:
@@ -48,10 +52,10 @@ class UniformArm:
     Attributes:
     ----------
 
-    a : float
+    lower_bound : float
         lower bound for reward
 
-    b : float
+    upper_bound : float
         upper bound for reward
 
     Methods:
@@ -61,14 +65,14 @@ class UniformArm:
 
     """
 
-    def __init__(self, a: float = 0.0, b: float = 1.0):
+    def __init__(self, lower_bound: float = 0.0, upper_bound: float = 1.0):
         """
         Args:
-            a (float, optional): lower bound for reward. Defaults to 0.0.
+            lower_bound (float, optional): lower bound for reward. Defaults to 0.0.
             b (float, optional): upper bound for reward. Defaults to 1.0.
         """
-        self.a = a
-        self.b = b
+        self.lower_bound = lower_bound
+        self.upper_bound = upper_bound
 
     def draw(self) -> float:
         """Randomly return reward as uniform distribution
@@ -76,4 +80,4 @@ class UniformArm:
         Returns:
             float: reward between a and b
         """
-        return random.uniform(self.a, self.b)
+        return random.uniform(self.lower_bound, self.upper_bound)

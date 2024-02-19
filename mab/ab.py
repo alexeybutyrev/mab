@@ -1,5 +1,6 @@
+"""AB testing Class for Multiarm Bandit Application"""
+from typing import List, Set
 from mab.mab import MAB
-from typing import List, Set, Union
 
 
 class AB(MAB):
@@ -33,7 +34,7 @@ class AB(MAB):
         select arm one by one sequentially
 
     """
-
+    # pylint: disable=too-many-arguments
     def __init__(
         self,
         counts: List[int] = None,
@@ -97,5 +98,5 @@ class AB(MAB):
 
     def reset(self):
         """Reset the algorithm to the initial state"""
-        super(AB, self).reset()
+        super().reset()
         self.current_arm = 0

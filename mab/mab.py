@@ -1,3 +1,6 @@
+"""
+    Mulitarm Bandint base Class
+"""
 import pickle
 import codecs
 from typing import List, Set, Union
@@ -33,7 +36,8 @@ class MAB:
         select index of arm to chose next (the core of the algorithm)
 
     select_version()
-        return version_id for the selected arm (same as select_arm but with version id as output)
+        return version_id for the selected arm 
+        (same as select_arm but with version id as output)
 
     update(chosen_arm, reward)
         updated chosen arm with the received reward
@@ -43,6 +47,8 @@ class MAB:
 
     """
 
+    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         counts: List[int] = None,
@@ -82,7 +88,7 @@ class MAB:
             self.version_ids = list(map(str, range(self.n_arms)))
         else:
             self.version_ids = version_ids
-            assert type(version_ids) == list
+            assert isinstance(version_ids, list)
 
         self.__version_to_index = {v: i for i, v in enumerate(self.version_ids)}
 
@@ -98,10 +104,11 @@ class MAB:
         return self.__dict__ == other.__dict__
 
     def __iter__(self):
-        # iterator in order to convert the model into dict (https://stackoverflow.com/questions/61517/python-dictionary-from-an-objects-fields)
-        for x, y in self.__dict__.items():
-            if not x.startswith("_"):
-                yield x, y
+        # iterator in order to convert the model into dict
+        # (https://stackoverflow.com/questions/61517/python-dictionary-from-an-objects-fields)
+        for key, val in self.__dict__.items():
+            if not key.startswith("_"):
+                yield key, val
 
     def to_dict(self) -> dict:
         """ Return MAB as a dictionary
@@ -123,7 +130,6 @@ class MAB:
         returns index of the arms
         must be chosed by algorythm
         """
-        pass
 
     def select_version(self) -> str:
         """ return version_id for selected arm
@@ -137,16 +143,19 @@ class MAB:
             chosen_arm (int or str): arm index or version_id
             reward (float): reward
         """
-        if type(chosen_arm) == str:
+        if isinstance(chosen_arm, str):
             chosen_arm = self.__version_to_index[chosen_arm]
 
         self.counts[chosen_arm] += 1
-        n = self.counts[chosen_arm]
-        self.values[chosen_arm] = ((n - 1) / n) * self.values[chosen_arm] + reward / n
+        count = self.counts[chosen_arm]
+        self.values[chosen_arm] = ((count - 1) / count) * self.values[
+            chosen_arm
+        ] + reward / count
 
     def compare_to_ab(self):
         """Compare collected rewards agains potential AB test ones
-           ## TODO run it on fly when we're updating rewards now the operation in O(narms) the other case would be O(1)
+           ## TODO run it on fly when we're updating 
+           # rewards now the operation in O(narms) the other case would be O(1)
         """
 
         # AB_rewards 2 cases n/2 * (rewards_1/counts_1) + n/2 * (rewards_2/counts_2) which is euqal
@@ -256,10 +265,10 @@ class MAB:
         active_versions = mab_settings["active_versions"]
 
         # update new versions is not found
-        for v in active_versions:
-            if v not in self.version_ids:
-                self.version_ids.append(v)
-                self.__version_to_index[v] = self.n_arms
+        for version in active_versions:
+            if version not in self.version_ids:
+                self.version_ids.append(version)
+                self.__version_to_index[version] = self.n_arms
                 self.n_arms += 1
 
         # rewrite active arms
@@ -267,4 +276,8 @@ class MAB:
 
     @property
     def active_versions(self) -> List[str]:
+        """ Return active versions
+        Returns:
+            List[str]: [description]
+        """
         return [self.version_ids[a] for a in self.active_arms]

@@ -1,6 +1,10 @@
+"""
+    EpsilonGreedy Muli-armed banded
+"""
+
 import random
-from mab.mab import MAB
 from typing import List, Set
+from mab.mab import MAB
 
 
 class EpsilonGreedy(MAB):
@@ -47,6 +51,7 @@ class EpsilonGreedy(MAB):
         updated chosen arm with the received reward
     """
 
+    # pylint: disable=too-many-arguments
     def __init__(
         self,
         epsilon: float = 1.0,
@@ -59,7 +64,8 @@ class EpsilonGreedy(MAB):
     ):
         """
         Args:
-            epsilon (float, optional): probability of choosing random arm. Otherwise we choose the most profitable one
+            epsilon (float, optional): probability of choosing random arm. 
+                                Otherwise we choose the most profitable one
                                        Defaults to 1.0.
             counts (list[int]): number of times event happend for each arm.
                                 Defaults to [0] * n_arms
@@ -70,7 +76,8 @@ class EpsilonGreedy(MAB):
             version_ids (list): list of version ids. 
                                 Defaults to list of indexes as strings
 
-            weakness_mult (float): Weekness multiplier. The idea is to decrease epsilon by that values 
+            weakness_mult (float): Weekness multiplier. 
+                The idea is to decrease epsilon by that values 
 
             active_arms (set): list with indexes of active versions
         """
@@ -92,8 +99,8 @@ class EpsilonGreedy(MAB):
         """
         if self.weakness_mult is None:
             return "EpsilonGreedy - " + str(self.epsilon)
-        else:
-            return "EpsilonWeakGreedy - " + str(self.weakness_mult)
+
+        return "EpsilonWeakGreedy - " + str(self.weakness_mult)
 
     @property
     def marketing_name(self) -> str:
@@ -109,20 +116,20 @@ class EpsilonGreedy(MAB):
         if self.weakness_mult is not None:
             self.epsilon *= self.weakness_mult
 
-        def argmax(x, active_arms):
-            mx = -1
+        def argmax(values, active_arms):
+            max_val = -1
             ind = 0
-            for i, v in enumerate(x):
-                if i in active_arms and v > mx:
-                    mx = v
+            for i, val in enumerate(values):
+                if i in active_arms and val > max_val:
+                    max_val = val
                     ind = i
 
             return ind
 
         if random.random() > self.epsilon:
             return argmax(self.values, self.active_arms)
-        else:
-            return random.sample(self.active_arms, 1)[0]
+
+        return random.sample(self.active_arms, 1)[0]
 
     def reset(self):
         """Reset the Algorythm to the initial state"""

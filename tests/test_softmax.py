@@ -4,7 +4,7 @@ import pytest
 
 @pytest.fixture
 def model():
-    return Softmax(0.1, [10, 20], [0.1, 0.5])
+    return Softmax([10, 20], [0.1, 0.5], temperature=0.1)
 
 
 def test_type(model):
