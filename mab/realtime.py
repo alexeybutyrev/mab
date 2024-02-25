@@ -259,7 +259,7 @@ class UISimulation:
                 ["accuracy", "average_reward", "cumulative_reward", "regret"].
             """
         if not metrics:
-            metrics = enums.CORE_METRICS
+            metrics = enums.CORE_METRICS + [enums.Metrics.COMPARE_TO_AB]
         times = list(range(1, self.horizon + 1))
 
         experiment_rewards = metric.ExperimentRewards(
