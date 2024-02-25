@@ -104,8 +104,8 @@ class MetricsCalculator:
 
 
 METRICS_MAPPING = {
-    enums.ACCURACY: MetricsCalculator.calculate_accuracy,
-    enums.AVERAGE_REWARD: MetricsCalculator.calculate_average_reward,
-    enums.CUMULATIVE_REWARD: MetricsCalculator.calculate_cumulative_reward,
-    enums.REGRET: MetricsCalculator.calculate_regret,
+    enums.Metrics.ACCURACY: MetricsCalculator.calculate_accuracy,
+    enums.Metrics.AVERAGE_REWARD: MetricsCalculator.calculate_average_reward,
+    enums.Metrics.CUMULATIVE_REWARD: MetricsCalculator.calculate_cumulative_reward,
+    enums.Metrics.REGRET: MetricsCalculator.calculate_regret,
 }

@@ -271,5 +271,5 @@ class UISimulation:
         for metric_name, metric_fun in metric.METRICS_MAPPING.items():
             self.metrics[metric_name] = metric_fun(experiment_rewards)
 
-        if enums.COMPARE_TO_AB in metrics:
-            self.metrics[enums.COMPARE_TO_AB] = self.rewards_difference_to_ab
+        if enums.Metrics.COMPARE_TO_AB in metrics:
+            self.metrics[enums.Metrics.COMPARE_TO_AB] = self.rewards_difference_to_ab

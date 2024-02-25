@@ -1,9 +1,28 @@
 """Names and Constants"""
+from enum import Enum, auto
 
-ACCURACY = "accuracy"
-AVERAGE_REWARD = "average_reward"
-CUMULATIVE_REWARD = "cumulative_reward"
-REGRET = "regret"
-COMPARE_TO_AB = "compare_to_ab"
 
-CORE_METRICS = [ACCURACY, AVERAGE_REWARD, CUMULATIVE_REWARD, REGRET]
+class AutoName(Enum):
+    """"Define Enum Values"""
+
+    @staticmethod
+    def _generate_next_value_(name, start, count, last_values):
+        return name.upper()
+
+
+class Metrics(AutoName):
+    """"Metrics Enum"""
+
+    ACCURACY = auto()
+    AVERAGE_REWARD = auto()
+    CUMULATIVE_REWARD = auto()
+    REGRET = auto()
+    COMPARE_TO_AB = auto()
+
+
+CORE_METRICS = [
+    Metrics.ACCURACY,
+    Metrics.AVERAGE_REWARD,
+    Metrics.CUMULATIVE_REWARD,
+    Metrics.REGRET,
+]
