@@ -55,7 +55,7 @@ class MAB:
         values: List[float] = None,
         n_arms: int = None,
         version_ids: List[str] = None,
-        active_arms: Set[int] = None,
+        active_arms: List[int] = None,
     ):
         """
         Args:
@@ -93,7 +93,7 @@ class MAB:
         self.__version_to_index = {v: i for i, v in enumerate(self.version_ids)}
 
         if active_arms is None:
-            active_arms = set(range(self.n_arms))
+            active_arms = list(range(self.n_arms))
 
         self.active_arms = active_arms
 
@@ -219,7 +219,7 @@ class MAB:
             index (int): index of the arm
         """
         assert index < self.n_arms
-        self.active_arms.add(index)
+        self.active_arms.append(index)
 
     def activate_version(self, version_id):
         """ Activate MAB arm with id as version_id
@@ -235,8 +235,8 @@ class MAB:
         Args:
             index (int): index of the arm
         """
-        if len(self.active_arms) > 2:
-            self.active_arms.discard(index)
+        if index in self.active_arms and len(self.active_arms) > 2:
+            self.active_arms.remove(index)
 
     def deactivate_version(self, version_id):
         """ Make active (or inactive we don't through exception here) version inactive
@@ -272,7 +272,7 @@ class MAB:
                 self.n_arms += 1
 
         # rewrite active arms
-        self.active_arms = {self.__version_to_index[v] for v in active_versions}
+        self.active_arms = list({self.__version_to_index[v] for v in active_versions})
 
     @property
     def active_versions(self) -> List[str]:

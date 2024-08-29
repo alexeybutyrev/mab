@@ -16,4 +16,4 @@ def test_name(model):
 
 
 def test_select_arm(model):
-    return model.select_arm() == 0
+    assert model.select_arm() == 0

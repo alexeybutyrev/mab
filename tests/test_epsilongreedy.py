@@ -26,4 +26,4 @@ def test_epsilon_check(model):
 
 def test_weakness(model_added_weakness):
     model_added_weakness.select_arm()
-    return model_added_weakness.epsilon == 0.9
+    assert model_added_weakness.epsilon == 0.9

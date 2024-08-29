@@ -20,4 +20,4 @@ def test_temperature_check(model):
 
 
 def test_select_arm(model):
-    return model.select_arm() in [0, 1]
+    assert model.select_arm() in [0, 1]
