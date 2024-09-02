@@ -3,10 +3,11 @@
 """
 import pickle
 import codecs
-from typing import List, Set, Union
+from typing import List, Union
+from abc import ABC
 
 
-class MAB:
+class MAB(ABC):
     """
     Mulitarm Bandint base Class
 
@@ -46,6 +47,12 @@ class MAB:
         return pickled self as encoded string
 
     """
+
+    counts: List[int] = None
+    values: List[float] = None
+    n_arms: int = None
+    version_ids: List[str] = None
+    active_arms: List[int] = None
 
     # pylint: disable=too-many-arguments
     # pylint: disable=too-many-instance-attributes
